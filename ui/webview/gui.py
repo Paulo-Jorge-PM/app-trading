@@ -6,6 +6,7 @@
 from flask import Flask
 #import flask
 from ui.webview.controllers.routes import flaskRoutes
+from tools.scripts import screen
 
 #from flask_restful import Resource, Api
 
@@ -51,7 +52,8 @@ class Gui(Flask):
         self.run()
 
     def startWebview(self):
-        webview.create_window("Trading App", "http://127.0.0.1:5000/")
+        resolution = screen.getResolution()
+        webview.create_window("Trading App", "http://127.0.0.1:5000/", width=resolution[0], height=resolution[1])
         webview.start()
         return webview
 

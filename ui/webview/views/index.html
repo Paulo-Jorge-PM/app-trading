@@ -2,14 +2,25 @@
 
 {% block content %}
 
-<h1>Trading track</h1>
+<!--<h1>Trading track</h1>
+<h2 style="corlor:gray;">...trading made easy.</h2>-->
 
-<h2 style="corlor:gray;">...trading made easy.</h2>
 
-<br />
-teste
-<a href="{{ url_for('.login') }}" class="button">Login</a> <a href="{{ url_for('.register') }}"" class="button">Register</a>
-    
+<div id="contentBar">
+<a href="#">&#9776;</a> &nbsp;&nbsp; Filter: 
+</div>
+
+<div id="mainContent">
+
+<a href="{{ url_for('.login') }}" class="button">Login</a> | <a href="{{ url_for('.register') }}"" class="button">Register</a>
+
+
+<button id="getMarkets" onclick="getMarkets()">GET MARKETS</button>
+
+<table id="markets"></table>
+
+</div>
+
 
 {#% include 'right.html' %#}
 

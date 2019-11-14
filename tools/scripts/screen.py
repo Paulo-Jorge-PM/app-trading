@@ -3,7 +3,7 @@
 
 import platform
 
-def getSreenSize():
+def getResolution():
     try:
         # for Python 3
         import tkinter as tk

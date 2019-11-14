@@ -11,7 +11,7 @@ class Main:
     def __init__(self):
         #Start Core layer
         self.auth = authentication.Authentication()
-        print(getSreenSize())
+        
         #Start DB ORM layer
         self.db = "teste"
 

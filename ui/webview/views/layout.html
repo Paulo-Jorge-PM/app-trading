@@ -20,19 +20,45 @@
 
 <div id="top">
 	<ul class="account">
-		<li><a href="{{ url_for('.login') }}" class="button"><!--&#9776;-->&#x2699;</a></li>
+		<!--<li><a href="{{ url_for('.login') }}" class="button">&#x2699;</a></li>-->
+		{% if loginStatus %}<li>Welcome <b>{{ username.capitalize() }}</b>! </li>
+		<li><a href="{{ url_for('.profile') }}" class="button">Profile</a></li>
+		<li><a href="{{ url_for('.logout') }}" class="button">Logout</a></li>
+		{% else: %}
+		<li><a href="{{ url_for('.login') }}" class="button">Login</a></li>
+		<li><a href="{{ url_for('.register') }}" class="button">Register</a></li>
+		{% endif %}
 	</ul>
 
 	<ul class="nav">
-		<li><a href="{{ url_for('.login') }}" class="button">&#9872; Markets</a></li>
-		<li><a href="{{ url_for('.login') }}" class="button">&#8644; Portfolio</a></li>
-		<li><a href="{{ url_for('.login') }}" class="button">&#8364; Wallet</a></li>
+		<li><a href="{{ url_for('.markets') }}" class="button">&#9872; Markets</a></li>
+		<li><a href="{{ url_for('.portfolio') }}" class="button">&#8644; Portfolio</a></li>
+		<li><a href="{{ url_for('.wallet') }}" class="button">&#8364; Wallet</a></li>
 	</ul>
 </div>
 
 <div id="main">
+	{% block balance %}{% endblock %}
 	<div id="left">
-		<div id="balance"><span>300 &#8364;</span></div>
+		<div id="balance"><span>{{ balance }}&#8364;</span></div>
+		<div style="margin-top:15px;text-align:center;"><span style="color:#ffffff;background:#333333;font-weight:bold;padding:2px 10px;">Bank balance</span></div>
+
+	<div id="formOrder" style="display:none;">
+		<h4></h4>
+		<form action='{{ url_for(".buysell") }}' name='formOrder' method='POST'>
+		<input type='hidden' name='typeOrder' value='' />
+		<input type='hidden' name='instrument' value='' />
+		<dl>
+		<dt><b>Units:</b></dt>
+		<dd><input type='text' name='units' value='0' /></dd>
+		<dt><b>Take Profit:</b></dt>
+		<dd><input type='text' name='takeProfit' value='0' /></dd>
+		<dt><b>Stop Loss:</b></dt>
+		<dd><input type='text' name='stopLoss' value='0' /></dd>
+		<dd style='text-align:right;'><input type='submit' value=''></dd>
+		</dl>
+		</form>
+	</div><!--/formOrder-->
 	</div>
 
 	<div id="content">
@@ -40,7 +66,7 @@
 	</div>
 </div>
 
-<footer style="background:#333333;width:100%;color:#ffffff;text-align:center;position:fixed;bottom:0;left:0;">Paulo Jorge PM | 2019 | MEI | <a href="http://www.paulojorgepm.net" target="_blank">www.paulojorgepm.net</a> | <a href="#top">Go top</a></footer>
+<footer style="background:#333333;width:100%;color:#ffffff;text-align:center;position:fixed;bottom:0;left:0;">Paulo Jorge PM | 2019 | MEI</footer>
 
 </body>
 </html>

@@ -1,47 +1,63 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 # -*- coding: UTF-8 -*-
+
+import datetime
+from models import db
 
 from core import investor
 #from core import admin
 #from core import session
 
+#dal = db.Db()
+
 class Authentication:
 
     def __init__(self):
+        self.db = db.Db()
+
         self.user = None
-        self.loginStatus = bool
+        self.loginStatus = False
 
-        self.checkSession()
+        #self.checkSession()
 
-        if self.loginStatus == True:
-            pass
-        else:
-            pass
+    def login(self, username, password):
+        user = self.db.loginUser(username,password)
+        if user:
+            if user["userRole"] == "user":
+                self.user = investor.Investor(user["id"], user["username"], user["email"], user["password"], user["balance"], user["userRole"], user["dateRegistration"])
+            elif user["userRole"] == "admin":
+                self.user = admin.Admin(user["id"], user["username"], user["email"], user["password"], user["balance"], user["userRole"], user["dateRegistration"])
 
-
-
-
-    def login(self, email, password):
-        if email == "p" and password == "1":
-            self.loginStatus == True
-            self.user()
+            self.loginStatus = True
             return True
         else:
-            self.loginStatus == False
+            self.user = None
+            self.loginStatus = False
             return False
 
-    def register(self):
-        return "Registar"
+    def register(self, name, email, password):
+        dateReg = datetime.datetime.now()
+        try:
+            self.db.insertUser(username=name, email=email, password=password, dateRegistration=dateReg)
+            return True
+        except Exception as error:
+            print(error)
+            return False
+
+    def logout(self):
+        self.user = None
+        self.loginStatus = False
 
     def lostPassword(self):
         pass
 
-    def logout(self):
-        self.user == None
-
-    def user(self):
+    def creatUser(self):
         #self.user = investor.Investor(name, email, password, userRole="investor")
         self.user = investor.Investor()
+
+    def creatAdmin(self):
+        #self.user = investor.Investor(name, email, password, userRole="investor")
+        self.user = admin.Admin()
 
     def setSession(self):
         pass

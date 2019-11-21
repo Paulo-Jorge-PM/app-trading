@@ -21,12 +21,12 @@ padding:10px 10px 20px 10px;
 border-bottom:8px solid #EFF0F1;
 }
 
-#top a {
+#top .nav a {
 font-size:1.1rem;
 }
 
 #top .account a {
-font-size:1.5rem;
+/*font-size:1.5rem;*/
 }
 
 #top ul {
@@ -75,17 +75,18 @@ padding:10px 20px;
 padding:15px 30px;
 }
 
-.button:hover, button:hover {
-background:#ffffe0;
+.button:hover, button:hover, .active {
+/*background:#ffffe0;*/
+background:#fA8072;
 }
 
-.lista button {
+/*.lista button {
 background:#ffcccb;
 }
 
 .lista button:hover {
 background:red;
-}
+}*/
 
 
 .lista tr:nth-child(even) {
@@ -125,9 +126,14 @@ h1 {
 margin:0;
 font-weight:bold;
 text-align:center;
-background:beige;
-border-top:5px solid brown;
-border-bottom:5px solid brown;
+
+font-size:1.4rem;
+padding:3px 10px;
+background:#333333;
+color:#ffffff;
+/*background:#ffffe0;
+border-top:3px solid brown;
+border-bottom:3px solid brown;*/
 }
 
 table.noBorder, .noBorder td {
@@ -150,11 +156,15 @@ button.newRow::after {
   content: "+";
 }
 
-input[type=text]{
+input[type=text],input[type=password]{
 width:300px;
 }
 
-dt {
+input{
+padding:3px 10px;
+}
+
+dt, h4 {
 background:#333333;
 color:#ffffff;
 font-weight:bold;
@@ -174,6 +184,32 @@ box-shadow: 1px 1px 5px #888888;
 padding:1px 5px;
 }
 
+#formOrder dl {
+width:80%;
+margin: 0 auto;
+border-bottom:1px dashed #D3D3D3;
+box-shadow: 1px 1px 5px #888888;
+}
+
+#formOrder dt {
+margin-top:5px;
+}
+
+#formOrder dd {
+margin-left:0px;
+box-shadow:none;
+border:noe;
+margin-top:0px;
+}
+
+#formOrder input[type=text] {
+width:auto;
+display: block;
+box-shadow:none;
+border:none;
+padding:0px;
+}
+
 #balance {
 text-align:center;
 }
@@ -181,10 +217,10 @@ text-align:center;
 #balance>span {
 position:relative;
 display: inline-block;
-height: 170px;
-width: 170px;
+height: 200px;
+width: 200px;
 
-line-height:150px;
+line-height:190px;
 
 margin-top:20px;
 font-size:2.5rem;
@@ -209,4 +245,30 @@ border:7px solid #EFF0F1;
   margin-right: 5px;
   text-align: center;
   width: 1.6em; */
+}
+
+#markets {
+
+}
+
+#timer {
+	float:right;
+}
+
+#timer span {
+	background:#333333;
+	color:#ffffff;
+	padding: 0px 7px;
+}
+/*
+#timer::before {
+  content: "&#128337; ";
+}*/
+
+td.up {
+	background-color:#98fb98 !important;
+}
+
+td.down {
+	background-color:#fb9898 !important;
 }

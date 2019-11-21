@@ -3,7 +3,8 @@
 {% block content %}
 
 <div id="contentBar">
-	<div id="timer">&#128337; Refresh in: <span></span></div>
+
+	<div id="timer">&#128337; Update prices in: <span></span></div>
 	<span><a href="#">&#9776;</a> &nbsp;&nbsp; <b>Filter by type:</b> <button onclick="showCurrency()">Currency</button> <button onclick="showMetal()">Metal</button> <button onclick="showCFD()">CFD</button> <button onclick="showAll()">All</button></span>
 </div>
 
@@ -26,6 +27,7 @@
 </div>
 
 <script>
+//AJAX
 function markets() {
 	getMarkets();
 }
@@ -43,7 +45,7 @@ function prices(paint=false) {
 	getPrices(instruments, paint);
 }
 
-
+//TIMER
 var max_time=5
 var count=max_time;
 var counter=setInterval(timer, 1000); //1000 will  run it every 1 second
@@ -88,8 +90,24 @@ function showAll() {
 $('#markets table td.type').parent("tr").show();
 }
 
-</script>
+$("button").on("click", function() {
+    alert(10);
+});
 
-{#% include 'right.html' %#}
+
+function orderForm(typeOrder, instrument) {
+
+$('#formOrder h4').text(typeOrder.toUpperCase() + ": " + instrument.toUpperCase() );
+$('#formOrder input[name="typeOrder"]').val(typeOrder);
+$('#formOrder input[name="instrument"]').val(instrument);
+$('#formOrder input[type="submit"]').val(typeOrder.toUpperCase());
+
+$('#formOrder').show();
+
+
+}
+
+
+</script>
 
 {% endblock %}

@@ -3,20 +3,25 @@
 
 from core import authentication
 from ui.webview import gui
+from models import db
 
 #from models import orm
 
 class Main:
 
     def __init__(self):
-        #Start Core layer
-        self.auth = authentication.Authentication()
-        
-        #Start DB ORM layer
-        self.db = "teste"
 
-        #Start GUI layer
-        self.gui = gui.Gui(core=self.auth, db=self.db)
+        #Layered: the view see the controllers, the controllers see the models
+
+        #Start Core layer (inside it we start and call the DB ORM)
+        self.auth = authentication.Authentication()
+    
+
+        #Start GUI layer and gie the Core to it
+        self.gui = gui.Gui(core=self.auth)
+
+        #Start DB ORM layer
+        #self.db = db.Db()
         
     
     def upgrade(self):

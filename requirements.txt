@@ -1,7 +1,5 @@
-Ficheiro de entrada: "main.py"
-Linguagem de programação usada: Python.
-É necessário ter Python (v. 2.6+ ou 3+) instalado no sistema para correr a versão raw.
-
-Alternativamente compilei uma versão para windows single-file com todas as dependências, em ambiente windows não requer Python: "main.exe"
-
-Código gerado a partir do modelo de classes no Visual Paradigm. Adicionei o ficheiro "main.py" manualmente como ponto de entrada, chamando o módulo "UI.Terminal.Consolde()" (editei este módulo para apenas servir o propósito desta primeira entrega e fazer print de sucesso e árvore da diretoria).
+python3+
+flask
+webview
+oandapyV20
+pydal

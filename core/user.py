@@ -1,21 +1,21 @@
 #!/usr/bin/python3
 # -*- coding: UTF-8 -*-
+
 from abc import ABCMeta, abstractmethod
 from core import authentication
-#from core import profile
 
 class User(metaclass = ABCMeta):
 
     @abstractmethod
-    def __init__(self):
-        self.idUser = None
-        self.name = None
-        self.password = None
-        self.email = None
-        self.userRole = None
-
-        self.secureToken = None
-
+    def __init__(self, idUser, username, email, password, balance, userRole, dateRegistration):
+        self.idUser = idUser
+        self.username = username
+        self.email = email
+        self.password = password
+        self.balance = balance
+        self.userRole = userRole
+        self.dateRegistration = dateRegistration
+        #self.secureKey = None
 
     #@classmethod
     @abstractmethod

@@ -1,0 +1,28 @@
+timestamp: 2019-11-17T20:57:43.702408
+CREATE TABLE "users"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "username" CHAR(512),
+    "email" CHAR(512),
+    "password" CHAR(512),
+    "balance" INTEGER,
+    "userRole" CHAR(512),
+    "secureKey" CHAR(512),
+    "dateRegistration" TIMESTAMP
+);
+success!
+timestamp: 2019-11-21T00:25:42.203774
+CREATE TABLE "assets"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "userId" INTEGER,
+    "assetId" CHAR(512),
+    "assetName" CHAR(512),
+    "marketType" CHAR(512),
+    "action" CHAR(512),
+    "takeProfit" INTEGER,
+    "stopLoss" INTEGER,
+    "closed" CHAR(1),
+    "startValue" INTEGER,
+    "closeValue" INTEGER,
+    "dateTransac" TIMESTAMP
+);
+success!

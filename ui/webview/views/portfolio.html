@@ -2,9 +2,10 @@
 
 {% block content %}
 
+
 <div id="contentBar">
 	<div id="timer">&#128337; Refresh in: <span></span></div>
-	<span><a href="#">&#9776;</a> &nbsp;&nbsp; <b>Filter by type:</b> <button onclick="showCurrency()">Currency</button> <button onclick="showMetal()">Metal</button> <button onclick="showCFD()">CFD</button> <button onclick="showAll()">All</button></span>
+	<span><a href="#">&#9776;</a> &nbsp;&nbsp; <b>Filter by:</b> <button onclick="showOpen()">Open</button> <button onclick="showClosed()">Closed</button> <button onclick="showCFD()">CFD</button> <button onclick="showAll()">All</button></span>
 </div>
 
 <div id="mainContent">
@@ -17,19 +18,23 @@
 	<tr>
 		<th>Asset</th>
 		<th>Tipo</th>
-		<th>Buy (€)</th>
-		<th>Sell (€)</th>
+		<th>Action</th>
+		<th>Value</th>
+		<th>TP</th>
+		<th>SL</th>
+		<th>Current Buy (€)</th>
+		<th>Current Sell (€)</th>
 		<th></th>
 	</tr>
+
+{% for asset in portfolio: %}
+<tr id="{{ asset.asset }}"><td class="displayName">{{ asset.assetName }}</td><td class="type">{{ asset.marketType }}</td><td>{{ asset.action }}</td><td>{{ asset.startValue }}</td><td>{{ asset.takeProfit }}</td><td>{{ asset.stopLoss }}</td><td class="buy"></td><td class="sell"></td><td><button onclick="close()">close</button></td></tr>
+{% endfor %}
 </table>
 </div>
-</div>
+</div><!--/mainContent-->
 
 <script>
-function markets() {
-	getMarkets();
-}
-
 function prices(paint=false) {
 	var instruments = '';
 	//get nome de assets em formato csv que queremos exibir preços 
@@ -58,12 +63,6 @@ function timer()
 	  }
 	  $('#timer span').text(count + " secs");
 }
-
-//1ª atualização do market e prices
-/*$.when(markets()).then(function(){
-    prices();
-})*/
-markets();
 
 //fazer refresh aos prices de x em x segundos
 timer();

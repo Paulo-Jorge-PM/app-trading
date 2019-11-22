@@ -272,3 +272,21 @@ td.up {
 td.down {
 	background-color:#fb9898 !important;
 }
+
+footer {
+background:#333333;
+width:100%;
+color:#ffffff;
+text-align:center;
+position:fixed;
+bottom:0;
+left:0;
+}
+
+footer a {
+color:#ffffff;
+}
+
+footer a:hover {
+color:#E4A39F;
+}

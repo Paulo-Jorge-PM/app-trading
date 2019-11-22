@@ -5,30 +5,33 @@
 
 <div id="contentBar">
 	<div id="timer">&#128337; Refresh in: <span></span></div>
-	<span><a href="#">&#9776;</a> &nbsp;&nbsp; <b>Filter by:</b> <button onclick="showOpen()">Open</button> <button onclick="showClosed()">Closed</button> <button onclick="showCFD()">CFD</button> <button onclick="showAll()">All</button></span>
+	<span><a href="#">&#9776;</a> &nbsp;&nbsp; <b>PORTFOLIO</b> | <b>Filter by:</b> <button onclick="showOpen()">Open</button> <button onclick="showClosed()">Closed</button>  <button onclick="showAll()">All</button></span>
 </div>
 
 <div id="mainContent">
 <button id="getMarkets" onclick="prices()" style="float:right;">FORCE REFRESH</button>
 
-<br />
+<br>
 
 <div id="markets">
 <table class="lista">
 	<tr>
+		<th></th>
 		<th>Asset</th>
+		<th>Closed?</th>
 		<th>Tipo</th>
 		<th>Action</th>
-		<th>Value</th>
+		<th>Units</th>
+		<th>Price</th>
 		<th>TP</th>
 		<th>SL</th>
-		<th>Current Buy (€)</th>
-		<th>Current Sell (€)</th>
-		<th></th>
+		<th>Date</th>
+		<th>Buy(€)</th>
+		<th>Sell(€)</th>
 	</tr>
 
 {% for asset in portfolio: %}
-<tr id="{{ asset.asset }}"><td class="displayName">{{ asset.assetName }}</td><td class="type">{{ asset.marketType }}</td><td>{{ asset.action }}</td><td>{{ asset.startValue }}</td><td>{{ asset.takeProfit }}</td><td>{{ asset.stopLoss }}</td><td class="buy"></td><td class="sell"></td><td><button onclick="close()">close</button></td></tr>
+<tr id="{{ asset.assetId }}" class="{{ asset.id }}"><td><button onclick="closeNow({{ asset.id }})">close</button></td><td class="displayName">{{ asset.assetId }}</td><td class="closed">{{ asset.closed }}</td><td class="type">{{ asset.marketType }}</td><td>{{ asset.action }}</td><td>{{ asset.units }}</td><<td>{{ asset.startValue }}</td><td>{{ asset.takeProfit }}</td><td>{{ asset.stopLoss }}</td><td>{{ asset.dateTransac.day }}/{{ asset.dateTransac.month }}/{{ asset.dateTransac.year }}</td><td class="buy">&#128337;</td><td class="sell">&#128337;</td></tr>
 {% endfor %}
 </table>
 </div>
@@ -64,27 +67,26 @@ function timer()
 	  $('#timer span').text(count + " secs");
 }
 
-//fazer refresh aos prices de x em x segundos
+//Async ajax: fazer refresh aos prices de x em x segundos
 timer();
 
-
-function showCurrency() {
-$('#markets table td.type').parent("tr").hide();
-$('#markets table td.type:contains("CURRENCY")').parent("tr").show();
+function showOpen() {
+$('#markets table td.closed').parent("tr").hide();
+$('#markets table td.closed:contains("False")').parent("tr").show();
 }
 
-function showMetal() {
-$('#markets table td.type').parent("tr").hide();
-$('#markets table td.type:contains("METAL")').parent("tr").show();
-}
-
-function showCFD() {
-$('#markets table td.type').parent("tr").hide();
-$('#markets table td.type:contains("CFD")').parent("tr").show();
+function showClosed() {
+$('#markets table td.closed').parent("tr").hide();
+$('#markets table td.closed:contains("False")').parent("tr").show();
 }
 
 function showAll() {
-$('#markets table td.type').parent("tr").show();
+$('#markets table tr').show();
+}
+
+function closeNow(idAsset) {
+	alert(10);
+	closeAsset(idAsset);
 }
 
 </script>

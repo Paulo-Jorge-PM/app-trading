@@ -5,7 +5,7 @@
 <div id="contentBar">
 
 	<div id="timer">&#128337; Update prices in: <span></span></div>
-	<span><a href="#">&#9776;</a> &nbsp;&nbsp; <b>Filter by type:</b> <button onclick="showCurrency()">Currency</button> <button onclick="showMetal()">Metal</button> <button onclick="showCFD()">CFD</button> <button onclick="showAll()">All</button></span>
+	<span><a href="#">&#9776;</a> &nbsp;&nbsp; <b>MARKETS</b> | <b>Filter by type:</b> <button onclick="showCurrency()">Currency</button> <button onclick="showMetal()">Metal</button> <button onclick="showCFD()">CFD</button> <button onclick="showAll()">All</button></span>
 </div>
 
 <div id="mainContent">
@@ -46,7 +46,7 @@ function prices(paint=false) {
 }
 
 //TIMER
-var max_time=5
+var max_time=3
 var count=max_time;
 var counter=setInterval(timer, 1000); //1000 will  run it every 1 second
 function timer()
@@ -87,19 +87,21 @@ $('#markets table td.type:contains("CFD")').parent("tr").show();
 }
 
 function showAll() {
-$('#markets table td.type').parent("tr").show();
+$('#markets table tr').show();
 }
 
-$("button").on("click", function() {
+/*$("button").on("click", function() {
     alert(10);
-});
+});*/
 
 
-function orderForm(typeOrder, instrument) {
+function orderForm(typeOrder, instrument, displayName, marketType) {
 
 $('#formOrder h4').text(typeOrder.toUpperCase() + ": " + instrument.toUpperCase() );
 $('#formOrder input[name="typeOrder"]').val(typeOrder);
 $('#formOrder input[name="instrument"]').val(instrument);
+$('#formOrder input[name="displayName"]').val(displayName);
+$('#formOrder input[name="marketType"]').val(marketType);
 $('#formOrder input[type="submit"]').val(typeOrder.toUpperCase());
 
 $('#formOrder').show();

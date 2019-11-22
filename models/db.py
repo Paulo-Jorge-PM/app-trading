@@ -61,13 +61,14 @@ class Db:
             self.db.define_table('assets', 
                 Field('userId', type='integer'), 
                 Field('assetId', type='string'),#asset name id
+                Field('units', type='integer'),#units; negative == sell; positive == buy
                 Field('assetName', type='string'),#asset display name
                 Field('marketType', type='string'),#CURRENCY, METAL, CFD etc
                 Field('action', type='string'),#buy/ask or sell/bid
                 Field('takeProfit', type='integer', default=0),#takeProfit limit? 0 = no
                 Field('stopLoss', type='integer', default=0),#takeLoss limit? 0 = no
                 Field('closed', type='boolean', default=False),#open or close
-                Field('startValue', type='integer'),
+                Field('startValue', type='integer'),#price
                 Field('closeValue', type='integer'), 
                 Field('dateTransac', type='datetime', writable=False, readable=False)
                 )
@@ -97,6 +98,12 @@ class Db:
         self.db.commit()
         self.db.close()
 
+    def insertAsset(self, userId, assetId, units, displayName, marketType, orderType, takeProfit, stopLoss, startValue, dateTransac):
+        self.connect()
+        self.db.assets.insert(userId=userId, assetId=assetId, units=units, assetName=displayName, marketType=marketType, action=orderType, takeProfit=takeProfit, stopLoss=stopLoss, startValue=startValue, dateTransac=dateTransac, closed=False, closeValue=0)
+        self.db.commit()
+        self.db.close()
+
 
     def loginUser(self, username, password):
         self.connect()
@@ -112,6 +119,11 @@ class Db:
         self.db.close()
         return portfolio
 
+    def closeAsset(self, idAsset):
+        self.connect()
+        row = self.db(self.db.assets.id == idAsset).select().first()
+        row.update_record(closed=True)
+        self.db.close()
 
 
 

@@ -1,9 +1,12 @@
 #!/usr/bin/python
 # -*- coding: UTF-8 -*-
-from core import investor
-#from services import brokerApi
-from services.brokers import oanda
+
+import datetime
+import json
 from flask import current_app
+from core import investor
+from services.brokers import oanda
+from models import db
 
 #Adapter design Pattern
 #Markets have some methods that works as an Adapter for the Brokers API ()
@@ -13,18 +16,22 @@ from flask import current_app
 
 class Market:
 
-    def __init__(self):
-        self.assets = None
-
-        self.user = None
-
+    def __init__(self, idUser):
+        #self.assets = None
+        self.user = idUser
+        self.db = db.Db()
         #To do: Get Broker API in use from a configuration file and allow the user to change preferences
         #self.brokerApi = current_app.config.BROKER_API
         self.brokerApi = 'oanda'
 
-    def order(self, orderType, instrument, units, takeProfit=0, stopLoss=0):
 
+    def order(self, orderType, instrument, units, takeProfit, stopLoss, displayName, marketType):
         if self.brokerApi == "oanda":
+            #Validate data for the Oanda Json formata
+            units = float(units.replace(",", "."))
+            takeProfit = float(takeProfit.replace(",", "."))
+            stopLoss = float(stopLoss.replace(",", "."))
+
             if orderType == "sell":
                 #Oanda API for sell uses negative number, for buy positive ones
                 #So we need to adapt the data
@@ -39,25 +46,66 @@ class Market:
             #Check if Oanda answered with positve order deal
             #Oanda give 2 variables: status code (201 = success) and a Json summary of the transaction
             #We receive it as a list here from the API
-            print(order[0])
-
+            #And save in DB and return
             if order[0] == 201:
-                return True
+                startValue = 0
+                saveDb = self.saveOrder(instrument, units, orderType, takeProfit, stopLoss, startValue, displayName, marketType)
+                if saveDb == True:
+                    return True
+                else:
+                    #Estes prints em produção deveria mser convertidos em logs
+                    print("Error - API worked but DB not for user xx!")
+                    return False
             else:
                 return False
 
+
+    def saveOrder(self, instrument, units, orderType, takeProfit, stopLoss, startValue, displayName, marketType):
+        dateTransac = datetime.datetime.now()
+        try:
+            self.db.insertAsset(userId=self.user, assetId=instrument, units=units, displayName=displayName, marketType=marketType, orderType=orderType, takeProfit=takeProfit, stopLoss=stopLoss, startValue=startValue, dateTransac=dateTransac)
+            return True
+        except Exception as error:
+            print(error)
+            return False
+
+
+    def closeAsset(self, idAsset):
+        try:
+            self.db.closeAsset(idAsset)
+            return "True"
+        except Exception as error:
+            #To do: pass the print to a log file instead
+            print(error)
+            return "False"
+        
+
     def getAssets(self):
-        pass
+        #Adapter for different broker API's and converter into Json for the views
+        if self.brokerApi == "oanda":
+            try:
+                data = oanda.get_markets()
+                data2json = json.dumps(data, sort_keys=True, indent=2)
+                return data2json
+            except Exception as error:
+                print(error)
+                return False
+
+    def getPrices(self, instruments):
+        #Adapter for different broker API's and converter into Json for the views
+        if self.brokerApi == "oanda":
+            try:
+                data = oanda.get_prices(instruments)
+                data2json = json.dumps(data, sort_keys=True, indent=2)
+                return data2json
+            except Exception as error:
+                print(error)
+                return False
 
     def investment(self):
         pass
 
     def getStatistics(self):
         pass
-
-    def filter(self):
-        pass
-
-
 
 

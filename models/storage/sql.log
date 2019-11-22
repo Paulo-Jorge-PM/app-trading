@@ -1,4 +1,4 @@
-timestamp: 2019-11-17T20:57:43.702408
+timestamp: 2019-11-21T16:48:50.078479
 CREATE TABLE "users"(
     "id" INTEGER PRIMARY KEY AUTOINCREMENT,
     "username" CHAR(512),
@@ -10,11 +10,12 @@ CREATE TABLE "users"(
     "dateRegistration" TIMESTAMP
 );
 success!
-timestamp: 2019-11-21T00:25:42.203774
+timestamp: 2019-11-21T16:55:12.895690
 CREATE TABLE "assets"(
     "id" INTEGER PRIMARY KEY AUTOINCREMENT,
     "userId" INTEGER,
     "assetId" CHAR(512),
+    "units" INTEGER,
     "assetName" CHAR(512),
     "marketType" CHAR(512),
     "action" CHAR(512),

@@ -3,7 +3,6 @@
 
 #from ui.webview import db
 from flask import Blueprint, render_template, current_app, jsonify, json, Response, request, redirect, url_for
-from services.brokers import oanda
 from core import market
 
 flaskRoutes = Blueprint('routes', __name__)
@@ -26,16 +25,33 @@ def add_header(response):
     response.headers['Cache-Control'] = 'no-store'
     return response
 
+
 #===Ajax API
 @flaskRoutes.route('/assets')
 def assets():
-    data = oanda.get_markets()
-    return Response(json.dumps(data), mimetype='application/json')
+	#User None because we allow to see markets witouth login
+	markets = market.Market(None)
+	data = markets.getAssets()
+	if data != False:
+		return Response(json.dumps(data), mimetype='application/json')
 
 @flaskRoutes.route('/prices')
 def prices():
-	data = oanda.get_prices()
-	return Response(json.dumps(data), mimetype='application/json')
+	instruments = request.args.get('instruments')
+	#data = oanda.get_prices(instruments)
+	markets = market.Market(None)
+	data = markets.getPrices(instruments)
+	#return Response(json.dumps(data), mimetype='application/json')
+	if data != False:
+		return Response(json.dumps(data), mimetype='application/json')
+
+@flaskRoutes.route('/close')
+def close():
+	idAsset = request.args.get('idasset')
+	markets = market.Market(current_app.auth.user.idUser)
+	close = markets.closeAsset(idAsset)
+	return close
+
 
 #===Pages routes
 @flaskRoutes.route('/')
@@ -106,32 +122,25 @@ def profile():
 def buysell():
 	message=""
 	if request.method == 'POST':
-		if request.form:
-			orderType = request.form["typeOrder"]
-			instrument = request.form["instrument"]
-			units = request.form["units"]
-			takeProfit = request.form["takeProfit"]
-			stopLoss = request.form["stopLoss"]
+		#if loged in
+		if current_app.auth.user:
+			if request.form:
+				orderType = request.form["typeOrder"]
+				instrument = request.form["instrument"]
+				displayName = request.form["displayName"]
+				marketType = request.form["marketType"]
+				units = request.form["units"]
+				takeProfit = request.form["takeProfit"]
+				stopLoss = request.form["stopLoss"]
 
-			m = market.Market()
-			order = m.order(orderType, instrument, units, takeProfit, stopLoss)
+				markets = market.Market(current_app.auth.user.idUser)
+				order = markets.order(orderType, instrument, units, takeProfit, stopLoss, displayName, marketType)
 
-			if order == True:
-				message = "Congratulations: order made with success! You can find it in your Portfolio section."
-			else:
-				message="Error! Something went wrong, your order could not be made."
-			return render_template("message.html", status=message)
-
-
-
-#@flaskRoutes.route('/auth/login', methods=['GET'])
-#def login():
-#    return '<h1>Login</h1><form action="/auth/login" method="post">E-mail: <input type="text" name="email" /><br />Password: <input type="password" name="password" /><input type="submit" /></form>'
-
-#@flaskRoutes.route('/auth/login', methods=['POST'])
-#def loginCheck():
-#    return '<h1>Login done?</h1>'
-
-#@flaskRoutes.route('/auth/register')
-#def register():
-#    return '<h1>Login</h1><form action="/auth/register" method="post">E-mail: <input type="text" name="email" /><br />Password: <input type="password" name="password" /><input type="submit" /></form>'
+				if order == True:
+					message = "Congratulations: order made with success! You can find it in your Portfolio section."
+				else:
+					message="Error! Something went wrong, your order could not be made."
+				return render_template("message.html", message=message)
+		else:
+			message = "Not autorized: not loged in! Please login first."
+			return render_template("message.html", message=message)

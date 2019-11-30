@@ -19,6 +19,11 @@ class Investor(user.User):
         portfolio = db.Db().portfolio(self.idUser)
         return portfolio
 
+
+    def followAssets(self):
+        follow = db.Db().follow(self.idUser)
+        return follow
+
     def buy(self):
         pass
 

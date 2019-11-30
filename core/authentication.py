@@ -14,7 +14,7 @@ class Authentication:
 
     def __init__(self, configs):
         self.configs = configs
-        
+
         self.db = db.Db()
 
         self.user = None

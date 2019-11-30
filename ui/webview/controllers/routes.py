@@ -5,6 +5,7 @@
 from flask import Blueprint, render_template, current_app, jsonify, json, Response, request, redirect, url_for
 from core import market
 
+#flaskRoutes é um Decorator da função de roteamento do Flask inicializado em gui.py
 flaskRoutes = Blueprint('routes', __name__)
 
 #===General data for templates without router
@@ -68,8 +69,28 @@ def portfolio():
 def markets():
 	return render_template("markets.html", data="")
 
-@flaskRoutes.route('/wallet')
+@flaskRoutes.route('/follow')
+def follow():
+	if current_app.auth.user:
+		if request.form:
+			instrument = request.args.get('instrument')
+			displayName = request.args.get('displayName')
+			marketType = request.args.get('marketType')
+			markets = market.Market(current_app.auth.user.idUser)
+			follow = markets.follow(instrument, displayName, marketType)
+	return render_template("markets.html", data="")
+
+
+@flaskRoutes.route('/showfollow')
+def showfollow():
+	follow = current_app.auth.user.follow()
+	return render_template("filterassets.html", follow=follow)
+
+
+
+@flaskRoutes.route('/wallet',  methods=['GET', 'POST'])
 def wallet():
+
 	if request.method == 'POST':
 		if current_app.auth.user:
 			if request.form:
@@ -85,13 +106,12 @@ def wallet():
 					transaction = banks.deposit(value)
 
 				if transaction == True:
-					message = "Congratulations: trasaction made with success! Your balance was updated."
+					message = "success"
+					status = "success"
+					return render_template("message.html", message=status)
 				else:
-					message="Error! Something went wrong, your order could not be made."
+					message="error"
 				return render_template("message.html", message=message)
-		else:
-			message = "Not autorized: not loged in! Please login first."
-			return render_template("message.html", message=message)
 	else:
 		return render_template("wallet.html", satus="ask")
 

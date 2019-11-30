@@ -98,6 +98,17 @@ class Market:
                 print(error)
                 return False
 
+    #def getFollow(self):
+        #Adapter for different broker API's and converter into Json for the views
+    #    if self.brokerApi == "oanda":
+    #        try:
+    #            data = self.broker.get_markets()
+    #            data2json = json.dumps(data, sort_keys=True, indent=2)
+    #            return data2json
+    #        except Exception as error:
+    #            print(error)
+    #            return False
+
     def getPrices(self, instruments):
         #Adapter for different broker API's and converter into Json for the views
         if self.brokerApi == "oanda":
@@ -108,3 +119,12 @@ class Market:
             except Exception as error:
                 print(error)
                 return False
+
+def follow(self, instrument, displayName, marketType):
+    try:
+        userId=self.user
+        self.db.followAsset(userId, instrument, displayName, marketType)
+        return True
+    except Exception as error:
+        print(error)
+        return False

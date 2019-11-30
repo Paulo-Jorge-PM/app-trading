@@ -6,7 +6,7 @@ function getMarkets() {
 	    	var json = JSON.parse(data);
 
 			$(json["instruments"]).each(function (key, value) {
-			    $('#markets table').append('<tr id="' + value["name"] + '"><td class="displayName">' + value["displayName"] + '</td><td class="type">' + value["type"] + '</td><td class="buy"></td><td class="sell"></td><td><button class="buyButton" onclick="orderForm(\'buy\', \'' + value["name"] + '\', \'' + value["displayName"] + '\', \'' + value["type"] + '\')">buy</button>&nbsp;&nbsp;<button class="sellButton" onclick="orderForm(\'sell\', \'' + value["name"] + '\', \'' + value["displayName"] + '\', \'' + value["type"] + '\')">sell</button></td></tr>');
+			    $('#markets table').append('<tr id="' + value["name"] + '"><td class="displayName">' + value["displayName"] + '</td><td class="type">' + value["type"] + '</td><td class="buy"></td><td class="sell"></td><td><button class="buyButton" onclick="orderForm(\'buy\', \'' + value["name"] + '\', \'' + value["displayName"] + '\', \'' + value["type"] + '\')">buy</button>&nbsp;&nbsp;<button class="sellButton" onclick="orderForm(\'sell\', \'' + value["name"] + '\', \'' + value["displayName"] + '\', \'' + value["type"] + '\')">sell</button>&nbsp;&nbsp;<button class="sellButton" onclick="follow(\'none\', \'' + value["name"] + '\', \'' + value["displayName"] + '\', \'' + value["type"] + '\')">follow</button></td></tr>');
 			});
 			prices();
 	    },
@@ -66,6 +66,12 @@ function getPrices(instruments, paint=false) {
 
 function closeAsset(idAsset) {
   $.get('/close?idasset='+idAsset,
+  function(data, status){
+  });
+}
+
+function follow(ordertype, instrument, displayName, marketType) {
+ $.get('/follow?instrument='+instrument+'&name='+displayName+'&market='+marketType,
   function(data, status){
   });
 }

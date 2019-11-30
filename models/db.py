@@ -40,6 +40,7 @@ class Db:
         self.tableUsers()
         self.tableAssets()
         self.tableBank()
+        #self.followAsset()
 
     def tableUsers(self):
         try:
@@ -74,6 +75,18 @@ class Db:
                 )
         except:
             print('models db.DB() tableAssets Error')
+
+
+    def followAsset(self):
+        try:
+            self.db.define_table('assets', 
+                Field('userId', type='integer'), 
+                Field('assetId', type='string'),#asset name id
+                Field('assetName', type='string'),#asset display name
+                Field('marketType', type='string')               
+                )
+        except:
+            print('models db.DB() followAsset Error')
 
     def tableBank(self):
         try:
@@ -136,4 +149,10 @@ class Db:
         self.connect()
         user = self.db(self.db.users.id == userId).select().first()
         user.update_record(balance=newBalance)
+        self.db.close()
+
+    def followAsset(self, userId, instrument, displayName, marketType):
+        self.connect()
+        self.db.followAssets.insert(userId=userId, assetId=instrument, assetName=displayName, marketType=marketType)
+        self.db.commit()
         self.db.close()

@@ -10,7 +10,7 @@
 <div id="mainContent">
 
 <div id="profile">
-{% if status=='ask' %}
+
 	<form action="{{ url_for('.profile') }}" method="POST">
 		<table>
 			<tr>
@@ -27,29 +27,7 @@
 			</tr>
 		</table>
 	</form>
-{% elif status=='success' %}
-<p style="color:green;">Profile edit with success!</p>
-<p>Continue browsing and have good investments!</p>
-{% elif status=='error' %}
-<p style="color:red;">Error: please try again (fields can't be empty):</p>
-<br />
-	<form action="{{ url_for('.profile') }}" method="POST">
-		<table>
-			<tr>
-				<td><b>Username:</b> </td><td><input type="text" name="username" value="{{ username }}" /></td>
-			</tr>
-			<tr>
-				<td><b>E-mail:</b> </td><td><input type="text" name="email" value="{{ email }}" /></td>
-			</tr>
-			<tr>
-				<td><b>New Password:</b> </td><td><input type="password" name="password" /></td>
-			</tr>
-			<tr>
-				<td colspan="2" style="text-align:right;"><input type="submit" value="Edit" /></td>
-			</tr>
-		</table>
-	</form>
-{% endif %}
+	
 </div>
 </div><!--/mainContent-->
 

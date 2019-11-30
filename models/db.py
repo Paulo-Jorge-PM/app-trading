@@ -125,20 +125,15 @@ class Db:
         row.update_record(closed=True)
         self.db.close()
 
+    def balance(self, userId):
+        self.connect()
+        user = self.db(self.db.users.id == userId).select().first()
+        balance = user["balance"]
+        self.db.close()
+        return balance
 
-
-    def getDbObject(self):
-        print("NANYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY?")
-        pass
-
-    def updateInDb(self):
-        pass
-
-    def deleteInDb(self):
-        pass
-
-    def insertInDb(self):
-        pass
-
-    def ppp(self):
-        print("teeeeeeeeeeeest")
+    def updateBalance(userId, newBalance):
+        self.connect()
+        user = self.db(self.db.users.id == userId).select().first()
+        user.update_record(balance=newBalance)
+        self.db.close()

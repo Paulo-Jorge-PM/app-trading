@@ -4,6 +4,7 @@
 from abc import ABCMeta, abstractmethod
 from core import authentication
 
+#Abstract class: I used the abc library to turn python classes no abstract by default) into real abstract classes
 class User(metaclass = ABCMeta):
 
     @abstractmethod
@@ -19,9 +20,13 @@ class User(metaclass = ABCMeta):
 
     #@classmethod
     @abstractmethod
-    def checkAuth(self):
+    def profile(self):
         pass
 
     @abstractmethod
     def editProfile(self):
+        pass
+
+    @abstractmethod
+    def checkAuth(self):
         pass

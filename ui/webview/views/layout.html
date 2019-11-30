@@ -12,7 +12,7 @@
 <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}?t=2" type="text/css">
 
 <script src="{{ url_for('static', filename='js/jquery.min.js') }}" type="text/javascript"></script>
-<script src="{{ url_for('static', filename='js/ajax.js') }}" type="text/javascript"></script>
+<script src="{{ url_for('static', filename='js/async.js') }}" type="text/javascript"></script>
 
 {% block head %}{% endblock %}
 </head>
@@ -25,8 +25,8 @@
 		<li><a href="{{ url_for('.profile') }}" class="button">Profile</a></li>
 		<li><a href="{{ url_for('.logout') }}" class="button">Logout</a></li>
 		{% else: %}
-		<li><a href="{{ url_for('.login') }}" class="button">Login</a></li>
-		<li><a href="{{ url_for('.register') }}" class="button">Register</a></li>
+		<li><a href="{{ url_for('.login') }}" class="button noBlock">Login</a></li>
+		<li><a href="{{ url_for('.register') }}" class="button noBlock">Register</a></li>
 		{% endif %}
 	</ul>
 
@@ -72,7 +72,17 @@
 	</div>
 </div>
 
-<footer style="background:#333333;width:100%;color:#ffffff;text-align:center;position:fixed;bottom:0;left:0;">Paulo Jorge PM | 2019 | MEI | <a href="http://www.paulojorgepm.net" target="_blank">http://www.paulojorgepm.net</a></footer>
+<footer>Paulo Jorge PM | 2019 | MEI | <a href="http://www.paulojorgepm.net" target="_blank">http://www.paulojorgepm.net</a></footer>
+
+{% if not loginStatus %}
+<script>
+$(".button").not(".noBlock").on("click", function(e) {
+    alert("Please first make login/register before using advanced functionallities!");
+    e.preventDefault();
+    //return False;
+});
+</script>
+{% endif %}
 
 </body>
 </html>

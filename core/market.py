@@ -5,7 +5,7 @@ import datetime
 import json
 from flask import current_app
 from core import investor
-from services.brokers import oanda
+from core.services.brokers import oanda
 from models import db
 
 #Adapter design Pattern
@@ -24,6 +24,9 @@ class Market:
         #self.brokerApi = current_app.config.BROKER_API
         self.brokerApi = 'oanda'
 
+        self.broker = None
+        if self.brokerApi == 'oanda':
+            self.broker = oanda.Oanda()
 
     def order(self, orderType, instrument, units, takeProfit, stopLoss, displayName, marketType):
         if self.brokerApi == "oanda":
@@ -42,7 +45,7 @@ class Market:
                     #If buy, and if units negative, make it positive
                     units = units * -1
 
-            order = oanda.order(instrument, units, takeProfit, stopLoss)
+            order = self.broker.order(instrument, units, takeProfit, stopLoss)
             #Check if Oanda answered with positve order deal
             #Oanda give 2 variables: status code (201 = success) and a Json summary of the transaction
             #We receive it as a list here from the API
@@ -71,6 +74,10 @@ class Market:
 
 
     def closeAsset(self, idAsset):
+        if self.brokerApi == "oanda":
+            #To do: close also in the API
+            pass
+        #Save DB
         try:
             self.db.closeAsset(idAsset)
             return "True"
@@ -84,7 +91,7 @@ class Market:
         #Adapter for different broker API's and converter into Json for the views
         if self.brokerApi == "oanda":
             try:
-                data = oanda.get_markets()
+                data = self.broker.get_markets()
                 data2json = json.dumps(data, sort_keys=True, indent=2)
                 return data2json
             except Exception as error:
@@ -95,17 +102,9 @@ class Market:
         #Adapter for different broker API's and converter into Json for the views
         if self.brokerApi == "oanda":
             try:
-                data = oanda.get_prices(instruments)
+                data = self.broker.get_prices(instruments)
                 data2json = json.dumps(data, sort_keys=True, indent=2)
                 return data2json
             except Exception as error:
                 print(error)
                 return False
-
-    def investment(self):
-        pass
-
-    def getStatistics(self):
-        pass
-
-

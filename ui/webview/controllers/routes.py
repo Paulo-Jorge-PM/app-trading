@@ -9,7 +9,7 @@ flaskRoutes = Blueprint('routes', __name__)
 
 #===General data for templates without router
 @flaskRoutes.context_processor
-def template():
+def globalContext():
 	if current_app.auth.user:
 		username = current_app.auth.user.username
 		balance = current_app.auth.user.balance
@@ -66,11 +66,40 @@ def portfolio():
 
 @flaskRoutes.route('/markets')
 def markets():
-    return render_template("markets.html", data="")
+	return render_template("markets.html", data="")
 
 @flaskRoutes.route('/wallet')
 def wallet():
-    return render_template("wallet.html", data="")
+	if request.method == 'POST':
+		if current_app.auth.user:
+			if request.form:
+				bank = request.form["bank"]
+				transType = request.form["transType"]
+				value = request.form["value"]
+
+				banks = money.Money(current_app.auth.user.idUser)
+
+				if transType == "widthdrawl":
+					transaction = banks.widthdrawl(value)
+				elif transType == "deposit":
+					transaction = banks.deposit(value)
+
+				if transaction == True:
+					message = "Congratulations: trasaction made with success! Your balance was updated."
+				else:
+					message="Error! Something went wrong, your order could not be made."
+				return render_template("message.html", message=message)
+		else:
+			message = "Not autorized: not loged in! Please login first."
+			return render_template("message.html", message=message)
+	else:
+		return render_template("wallet.html", satus="ask")
+
+
+@flaskRoutes.route('/bank')
+def bank():
+	pass
+
 
 @flaskRoutes.route('/register', methods=['GET', 'POST'])
 def register():

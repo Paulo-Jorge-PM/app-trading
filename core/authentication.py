@@ -12,7 +12,9 @@ from core import investor
 
 class Authentication:
 
-    def __init__(self):
+    def __init__(self, configs):
+        self.configs = configs
+        
         self.db = db.Db()
 
         self.user = None
@@ -59,12 +61,6 @@ class Authentication:
         #self.user = investor.Investor(name, email, password, userRole="investor")
         self.user = admin.Admin()
 
-    def setSession(self):
+    #To do: security tokens and make app more secure
+    def session(self):
         pass
-
-    def destroySession(self):
-        pass
-
-    def checkSession(self):
-        pass
-

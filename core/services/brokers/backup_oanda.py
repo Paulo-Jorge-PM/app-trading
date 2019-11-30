@@ -75,19 +75,19 @@ def order(instrument, units, takeProfit=0, stopLoss=0):
 	return [status_code, jsonResponse]
 
 
-def orderJson(instrument, units, takeProfit, stopLoss):
-	order  = """{'order': {
-		'type': 'MARKET',
-		'timeInForce': 'FOK',
-		'instrument': '""" + instrument + """',
-		'units': '""" + str(units) + """',
-		'positionFill': 'DEFAULT',
-		'stopLossOnFill': {
-			'timeInForce': 'GTC',
-			'price': '""" + str(stopLoss) + """'},
-		'takeProfitOnFill': {
-			'price': '""" + str(takeProfit) + """'}
-		}
-		}"""
-	return order
+#def orderJson(instrument, units, takeProfit, stopLoss):
+#	order  = """{'order': {
+#		'type': 'MARKET',
+#		'timeInForce': 'FOK',
+#		'instrument': '""" + instrument + """',
+#		'units': '""" + str(units) + """',
+#		'positionFill': 'DEFAULT',
+#		'stopLossOnFill': {
+#			'timeInForce': 'GTC',
+#			'price': '""" + str(stopLoss) + """'},
+#		'takeProfitOnFill': {
+#			'price': '""" + str(takeProfit) + """'}
+#		}
+#		}"""
+#	return order
 

@@ -1,33 +1,16 @@
 #!/usr/bin/python3
 # -*- coding: UTF-8 -*-
 
-#from gui import internationalization
+#To do: finish translation package, not used yet
+from ui.internationalization import internationalization
 
 from flask import Flask
-#import flask
 from ui.webview.controllers.routes import flaskRoutes
-from tools.scripts import screen
-
-#from flask_restful import Resource, Api
-
-#from ui.webview import app 
+from core.tools.scripts import screen
 
 import webview
 import sys
 import threading
-
-#app = Flask(__name__)
-#app.register_blueprint(flaskRoutes)
-
-#api = Api(app)
-
-#server.config['SEND_FILE_MAX_AGE_DEFAULT'] = 1  # disable caching
-
-
-#@app.after_request
-#def add_header(response):
-#    response.headers['Cache-Control'] = 'no-store'
-#    return response
 
 class Gui(Flask):
     def __init__(self, import_name=__name__, core=None):
@@ -65,7 +48,7 @@ class Gui(Flask):
 
     def startWebview(self):
         #I want the app to start maximized. I had to use other Gui like tkinter to get the screen size before innitialization
-        resolution = screen.getResolution()
+        resolution = screen.Screen().getResolution()
         webview.create_window("Trading App", "http://127.0.0.1:5000/", width=resolution[0], height=resolution[1])
         webview.start()
         return webview

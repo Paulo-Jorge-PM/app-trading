@@ -67,6 +67,5 @@ function getPrices(instruments, paint=false) {
 function closeAsset(idAsset) {
   $.get('/close?idasset='+idAsset,
   function(data, status){
-    alert(5555555);
   });
 }

@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # -*- coding: UTF-8 -*-
 
-from core.services.bank import bank
+from core.services.banks import bank
 
 class Demo(bank.Bank):
     def __init__(self):

@@ -23,7 +23,7 @@ class Db:
 
     def connect(self):
         if not self.db:
-            self.db = DAL(self.uri, folder=self.folder, pool_size=5, lazy_tables=True)
+            self.db = DAL(self.uri, folder=self.folder, pool_size=5, lazy_tables=False)
             #, migrate_enabled=False, migrate=False, lazy_tables=True
             self.tables()
         else:
@@ -40,7 +40,7 @@ class Db:
         self.tableUsers()
         self.tableAssets()
         self.tableBank()
-        #self.followAsset()
+        self.tableFollow()
 
     def tableUsers(self):
         try:
@@ -77,16 +77,17 @@ class Db:
             print('models db.DB() tableAssets Error')
 
 
-    def followAsset(self):
+    def tableFollow(self):
         try:
-            self.db.define_table('assets', 
+            self.db.define_table('followed', 
                 Field('userId', type='integer'), 
                 Field('assetId', type='string'),#asset name id
                 Field('assetName', type='string'),#asset display name
                 Field('marketType', type='string')               
                 )
         except:
-            print('models db.DB() followAsset Error')
+            print('models db.DB() tableFollow Error')
+
 
     def tableBank(self):
         try:
@@ -145,7 +146,7 @@ class Db:
         self.db.close()
         return balance
 
-    def updateBalance(userId, newBalance):
+    def updateBalance(self, userId, newBalance):
         self.connect()
         user = self.db(self.db.users.id == userId).select().first()
         user.update_record(balance=newBalance)
@@ -153,6 +154,12 @@ class Db:
 
     def followAsset(self, userId, instrument, displayName, marketType):
         self.connect()
-        self.db.followAssets.insert(userId=userId, assetId=instrument, assetName=displayName, marketType=marketType)
+        self.db.followed.insert(userId=userId, assetId=instrument, assetName=displayName, marketType=marketType)
         self.db.commit()
         self.db.close()
+
+    def followed(self, userId):
+        self.connect()
+        followed = self.db(self.db.followed.userId == userId).select()
+        self.db.close()
+        return followed

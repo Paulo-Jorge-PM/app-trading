@@ -8,11 +8,77 @@
 </div>
 
 <div id="mainContent">
+<button id="getMarkets" onclick="prices()" style="float:right;">FORCE REFRESH</button>
 
+<br>
+
+<div id="markets">
+<table class="lista">
+	<tr>
+		<th></th>
+		<th>Asset</th>
+		<th>Buy(€)</th>
+		<th>Sell(€)</th>
+	</tr>
+
+{% for asset in follow: %}
+<tr id="{{ asset.assetId }}" class="{{ asset.id }}"><td><button onclick="unfollow({{ asset.id }})">unfollow</button></td><td class="displayName">{{ asset.assetId }}</td><td class="buy">&#128337;</td><td class="sell">&#128337;</td></tr>
+{% endfor %}
+</table>
+</div>
 </div><!--/mainContent-->
 
 <script>
+var temp_buy = 0;
+var temp_sell = 0;
+
+function prices(paint=false) {
+	var instruments = '';
+	//get nome de assets em formato csv que queremos exibir preços 
+	$('#markets table tr').each(function (key, value) {
+		if($(this).attr('id')) {
+			instruments += "," + $(this).attr('id');
+
+		//Notify when the price of a followed asset changes
+		//Incomplete. Only works with one follow, should be for each, and send a notification via email in a separate microservice server-side
+		if (temp_buy != 0 || temp_sell != 0) {
+				if ( $(this).children('.buy').text() != temp_buy || $(this).children('.sell').text() != temp_sell) {
+					alert("Notificação: os preços mudaram!!")
+					//$(this).children('.displayName').text()
+				}
+		}
+
+			temp_buy = $(this).children('.buy').text();
+			temp_sell = $(this).children('.sell').text();
+		}
+
+
+	});
+	//delete 1st comma
+	instruments = instruments.substr(1);
+	getPrices(instruments, paint);
+
+
+}
+
+
+var max_time=5
+var count=max_time;
+var counter=setInterval(timer, 1000); //1000 will  run it every 1 second
+function timer()
+	{
+	  count=count-1;
+	  if (count <= 0)
+	  {
+	     //restart do contador
+	     count=max_time;
+	     prices(paint=true);
+	  }
+	  $('#timer span').text(count + " secs");
+}
+
+//Async ajax: fazer refresh aos prices de x em x segundos
+timer();
 
 </script>
-
 {% endblock %}

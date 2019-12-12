@@ -1,4 +1,4 @@
-timestamp: 2019-11-21T16:48:50.078479
+timestamp: 2019-12-11T22:47:47.656669
 CREATE TABLE "users"(
     "id" INTEGER PRIMARY KEY AUTOINCREMENT,
     "username" CHAR(512),
@@ -10,7 +10,7 @@ CREATE TABLE "users"(
     "dateRegistration" TIMESTAMP
 );
 success!
-timestamp: 2019-11-21T16:55:12.895690
+timestamp: 2019-12-11T22:47:47.673586
 CREATE TABLE "assets"(
     "id" INTEGER PRIMARY KEY AUTOINCREMENT,
     "userId" INTEGER,
@@ -25,5 +25,26 @@ CREATE TABLE "assets"(
     "startValue" INTEGER,
     "closeValue" INTEGER,
     "dateTransac" TIMESTAMP
+);
+success!
+timestamp: 2019-12-11T22:47:47.683274
+CREATE TABLE "bank"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "userId" INTEGER,
+    "value" INTEGER,
+    "action" CHAR(512),
+    "balanceBefore" INTEGER,
+    "transitionType" CHAR(512),
+    "bankId" INTEGER,
+    "dateTransac" TIMESTAMP
+);
+success!
+timestamp: 2019-12-11T22:47:47.692553
+CREATE TABLE "followed"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "userId" INTEGER,
+    "assetId" CHAR(512),
+    "assetName" CHAR(512),
+    "marketType" CHAR(512)
 );
 success!

@@ -3,7 +3,8 @@
 
 #from ui.webview import db
 from flask import Blueprint, render_template, current_app, jsonify, json, Response, request, redirect, url_for
-from core import market
+from core import market, money
+
 
 #flaskRoutes é um Decorator da função de roteamento do Flask inicializado em gui.py
 flaskRoutes = Blueprint('routes', __name__)
@@ -71,15 +72,22 @@ def markets():
 
 @flaskRoutes.route('/follow')
 def follow():
+	print(5555555555555555555555)
 	if current_app.auth.user:
-		if request.form:
-			instrument = request.args.get('instrument')
-			displayName = request.args.get('displayName')
-			marketType = request.args.get('marketType')
-			markets = market.Market(current_app.auth.user.idUser)
-			follow = markets.follow(instrument, displayName, marketType)
-	return render_template("markets.html", data="")
-
+		print(100000000000000000000000000000000000000000000000000000000000000000)
+		#if request.form:
+		instrument = request.args.get('instrument')
+		displayName = request.args.get('displayName')
+		marketType = request.args.get('marketType')
+		markets = market.Market(current_app.auth.user.idUser)
+		follow = markets.follow(instrument, displayName, marketType)
+		print(22222222222222222)
+		if follow == True:
+			return render_template("message.html", message="Asset adicionado com sucesso! Pode consultar no menu Followed.")
+		else:
+			return render_template("message.html", message="Erro. Falhou.")
+	#return render_template("markets.html", data="")
+	return render_template("message.html", message="Por favor faça login.")
 
 @flaskRoutes.route('/showfollow')
 def showfollow():

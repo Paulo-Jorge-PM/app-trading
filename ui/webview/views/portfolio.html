@@ -31,7 +31,7 @@
 	</tr>
 
 {% for asset in portfolio: %}
-<tr id="{{ asset.assetId }}" class="{{ asset.id }}"><td><button onclick="closeNow({{ asset.id }})">close</button></td><td class="displayName">{{ asset.assetId }}</td><td class="closed">{{ asset.closed }}</td><td class="type">{{ asset.marketType }}</td><td>{{ asset.action }}</td><td>{{ asset.units }}</td><<td>{{ asset.startValue }}</td><td>{{ asset.takeProfit }}</td><td>{{ asset.stopLoss }}</td><td>{{ asset.dateTransac.day }}/{{ asset.dateTransac.month }}/{{ asset.dateTransac.year }}</td><td class="buy">&#128337;</td><td class="sell">&#128337;</td></tr>
+<tr id="{{ asset.assetId }}" class="{{ asset.id }}"><td class="closeButton"><button onclick="closeNow({{ asset.id }})">close</button></td><td class="displayName">{{ asset.assetId }}</td><td class="closed">{{ asset.closed }}</td><td class="type">{{ asset.marketType }}</td><td>{{ asset.action }}</td><td>{{ asset.units }}</td><td>{{ asset.startValue }}</td><td>{{ asset.takeProfit }}</td><td>{{ asset.stopLoss }}</td><td>{{ asset.dateTransac.day }}/{{ asset.dateTransac.month }}/{{ asset.dateTransac.year }}</td><td class="buy">&#128337;</td><td class="sell">&#128337;</td></tr>
 {% endfor %}
 </table>
 </div>
@@ -88,6 +88,9 @@ function closeNow(idAsset) {
 	alert(10);
 	closeAsset(idAsset);
 }
+
+$('#markets table td.closed:contains("True")').parent("tr").children(".closeButton").html("&nbsp;");
+$('#markets table td.closed:contains("True")').parent("tr").css("background", "#EFF0F1");
 
 </script>
 

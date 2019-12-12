@@ -120,11 +120,11 @@ class Market:
                 print(error)
                 return False
 
-def follow(self, instrument, displayName, marketType):
-    try:
-        userId=self.user
-        self.db.followAsset(userId, instrument, displayName, marketType)
-        return True
-    except Exception as error:
-        print(error)
-        return False
+    def follow(self, instrument, displayName, marketType):
+        try:
+            userId=self.user
+            self.db.followAsset(userId, instrument, displayName, marketType)
+            return True
+        except Exception as error:
+            print(error)
+            return False

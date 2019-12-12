@@ -6,7 +6,7 @@ function getMarkets() {
 	    	var json = JSON.parse(data);
 
 			$(json["instruments"]).each(function (key, value) {
-			    $('#markets table').append('<tr id="' + value["name"] + '"><td class="displayName">' + value["displayName"] + '</td><td class="type">' + value["type"] + '</td><td class="buy"></td><td class="sell"></td><td><button class="buyButton" onclick="orderForm(\'buy\', \'' + value["name"] + '\', \'' + value["displayName"] + '\', \'' + value["type"] + '\')">buy</button>&nbsp;&nbsp;<button class="sellButton" onclick="orderForm(\'sell\', \'' + value["name"] + '\', \'' + value["displayName"] + '\', \'' + value["type"] + '\')">sell</button>&nbsp;&nbsp;<button class="sellButton" onclick="follow(\'none\', \'' + value["name"] + '\', \'' + value["displayName"] + '\', \'' + value["type"] + '\')">follow</button></td></tr>');
+			    $('#markets table').append('<tr id="' + value["name"] + '"><td class="displayName">' + value["displayName"] + '</td><td class="type">' + value["type"] + '</td><td class="buy"></td><td class="sell"></td><td><button class="buyButton" onclick="orderForm(\'buy\', \'' + value["name"] + '\', \'' + value["displayName"] + '\', \'' + value["type"] + '\')">buy</button>&nbsp;&nbsp;<button class="sellButton" onclick="orderForm(\'sell\', \'' + value["name"] + '\', \'' + value["displayName"] + '\', \'' + value["type"] + '\')">sell</button>&nbsp;&nbsp;<button class="followButton" onclick="follow(\'none\', \'' + value["name"] + '\', \'' + value["displayName"] + '\', \'' + value["type"] + '\')">follow</button></td></tr>');
 			});
 			prices();
 	    },
@@ -71,7 +71,21 @@ function closeAsset(idAsset) {
 }
 
 function follow(ordertype, instrument, displayName, marketType) {
- $.get('/follow?instrument='+instrument+'&name='+displayName+'&market='+marketType,
+
+/* $.get('/follow?instrument='+instrument+'&name='+displayName+'&market='+marketType,
   function(data, status){
+  	alert("Adicionado aos seguidos! Pode consultar no menu Fllowed.");
   });
+}*/
+
+
+$.ajax({
+	    url: '/follow?instrument='+instrument+'&name='+displayName+'&market='+marketType,
+	    success: function(data){
+	    	alert("Adicionado aos seguidos! Pode consultar no menu Fllowed.");
+	    },
+	    error: function(error){
+		    console.log(error);
+	    }
+    });
 }

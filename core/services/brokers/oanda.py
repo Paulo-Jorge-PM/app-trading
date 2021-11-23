@@ -20,11 +20,11 @@ class Oanda(broker.Broker):
 	def __init__(self):
 		super().__init__()
 
-		self.ACCOUNT_ID = "101-004-12680411-001"
-		self.ACESS_TOKEN = "a11f40a13ca614c4734457638ec24397-71367b8afff53618a06c22ecf2d1b23f"
+		self.ACCOUNT_ID = "101-012-20885804-001"
+		self.ACESS_TOKEN = "d7d011d085db85e7a249f62da2ce20bd-4a6118d7f6324a7989301d54b3517a2a"
 
 	def get_markets(self):
-		client = API(access_token=self.ACESS_TOKEN)
+		client = API(access_token=self.ACESS_TOKEN, environment="practice")#or pratice
 		r = accounts.AccountInstruments(accountID=self.ACCOUNT_ID)
 		rv = client.request(r)
 		#data = json.dumps(rv, sort_keys=True, indent=2)
@@ -32,7 +32,7 @@ class Oanda(broker.Broker):
 
 	#Portfolio
 	def get_transactions(self):
-		client = API(access_token=self.ACESS_TOKEN)
+		client = API(access_token=self.ACESS_TOKEN, environment="practice")
 		r = trades.TradesList(self.ACCOUNT_ID)
 		rv = client.request(r)
 		data = json.dumps(rv, sort_keys=True, indent=2)
@@ -40,7 +40,7 @@ class Oanda(broker.Broker):
 
 	#Update/exibir prices com base na query get no url
 	def get_prices(self, instruments):
-		client = API(access_token=self.ACESS_TOKEN)
+		client = API(access_token=self.ACESS_TOKEN, environment="practice")
 		#BID= SELL | ASKS = BUY
 		#formato: params = {"instruments" : "GBP_USD,XAG_CAD,assetName,etc"}
 		params = {"instruments" : instruments}

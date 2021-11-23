@@ -1,5 +1,8 @@
 python3+
 flask
-webview
+pywebview
 oandapyV20
 pydal
+
+If not have tkinter (some python3 distributions don't have): sudo apt-get install python3-tk
+

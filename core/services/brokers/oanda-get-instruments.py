@@ -5,8 +5,8 @@ import json
 import oandapyV20
 import oandapyV20.endpoints.accounts as accounts
 
-ACCOUNT_ID = "101-004-12680411-001"
-ACESS_TOKEN = "a11f40a13ca614c4734457638ec24397-71367b8afff53618a06c22ecf2d1b23f"
+ACCOUNT_ID = "101-012-20885804-001"
+ACESS_TOKEN = "d7d011d085db85e7a249f62da2ce20bd-4a6118d7f6324a7989301d54b3517a2a"
 
 client = oandapyV20.API(access_token=ACESS_TOKEN)
 
